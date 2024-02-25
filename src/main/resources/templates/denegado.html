@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Denegado</title>
+</head>
+<body>
+<div style="text-align: center">
+    <h2><a href="/">Magic Water</a></h2>
+    <img th:src="@{imagenes/prohibido.png}" alt="Ha ocurrido un error">
+    <h1>Permiso denegado</h1>
+
+    <h4>
+        <span>Usuario actual: </span>
+        <span th:text="${user}"></span>
+    </h4>
+</div>
+</body>
+</html>

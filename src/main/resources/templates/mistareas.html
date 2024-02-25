@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Tareas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body class="bg-gray-100">
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-blue-500 mb-4">Mis Tareas</h1>
+        <div class="space-x-4">
+            <a href="/" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ir al inicio</a>
+            <a href="/nuevatarea" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <i class="fas fa-plus-circle mr-2"></i>
+                <span>Crear Tarea</span>
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(tareas)}" class="text-center">
+        <p class="text-2xl font-bold">No tienes tareas pendientes</p>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(tareas)}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div th:each="tar : ${tareas}" class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2" th:text="${tar.getTitulo()}"></div>
+                <p class="text-gray-700 text-base" th:text="${tar.getDescripcion()}"></p>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200">
+                <p>Inicio Previsto: <span class="text-gray-700 font-semibold" th:text="${tar.getInicioPrevisto()}"></span></p>
+                <p>Fin Previsto: <span class="text-gray-700 font-semibold" th:text="${tar.getFinPrevisto()}"></span></p>
+                <p>Inicio Real: <span class="text-gray-700 font-semibold" th:text="${tar.getInicioReal()}"></span></p>
+                <p>Fin Real: <span class="text-gray-700 font-semibold" th:text="${tar.getFinReal()}"></span></p>
+                <p>Estado: <span class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-black mr-2 mb-2" th:text="${tar.getEstado()}" th:classappend="${tar.getEstado() == 'En progreso' ? 'bg-green-500 text-white' : (tar.getEstado() == 'En espera' ? 'bg-yellow-300' : (tar.getEstado() == 'Pendiente' ? 'bg-red-500 text-white' : ''))}"></span></p>
+            </div>
+            <div class="flex justify-center items-center px-6 py-4">
+                <a th:href="@{/editar(idtarea=${tar.idtarea})}" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <i class="fas fa-pencil-alt mr-2"></i>
+                    <span>Editar</span>
+                </a>
+                <form action="/eliminartarea" method="post" class="inline-flex items-center ml-4">
+                    <input type="hidden" name="idtarea" th:value="${tar.idtarea}">
+                    <button type="submit" class="btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        <i class="fas fa-trash-alt mr-2"></i>
+                        <span>Eliminar</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

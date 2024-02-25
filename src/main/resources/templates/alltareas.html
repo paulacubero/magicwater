@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Tareas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-blue-500">Tareas de Magic Water</h1>
+        <div class="mt-4">
+            <a href="/" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ir al inicio</a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div th:each="tar : ${tareas}" class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-2" th:text="${tar.getTitulo()}"></h2>
+                <p class="text-gray-600" th:text="${tar.getDescripcion()}"></p>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200">
+                <p class="text-gray-700"><span class="font-semibold">Inicio Previsto:</span> <span th:text="${tar.getInicioPrevisto()}"></span></p>
+                <p class="text-gray-700"><span class="font-semibold">Fin Previsto:</span> <span th:text="${tar.getFinPrevisto()}"></span></p>
+                <p class="text-gray-700"><span class="font-semibold">Inicio Real:</span> <span th:text="${tar.getInicioReal()}"></span></p>
+                <p class="text-gray-700"><span class="font-semibold">Fin Real:</span> <span th:text="${tar.getFinReal()}"></span></p>
+                <p class="text-gray-700"><span class="font-semibold">Estado:</span> <span class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-black mr-2" th:text="${tar.getEstado()}" th:classappend="${tar.getEstado() == 'En progreso' ? 'bg-green-200' : (tar.getEstado() == 'En espera' ? 'bg-yellow-300' : (tar.getEstado() == 'Pendiente' ? 'bg-red-500' : ''))}"></span></p>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200">
+                <p class="text-gray-700"><span class="font-semibold">Tarea asignada a:</span> <span th:text="${tar.getCliente().getNombre()} + ' ' + ${tar.getCliente().getApellidos()}"></span></p>
+                <p class="text-gray-700"><span class="font-semibold">DNI:</span> <span th:text="${tar.getCliente().getDNI()}"></span></p>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200">
+                <h3 class="text-lg font-semibold">Especialidad</h3>
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2" th:text="${tar.getCliente().getCategoria()}"></span>
+            </div>
+
+            <div class="px-6 py-4 flex justify-center">
+                <form action="/eliminartarea" method="post">
+                    <input type="hidden" name="idtarea" th:value="${tar.idtarea}">
+                    <button type="submit" class="btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        <i class="fas fa-trash-alt mr-2"></i>
+                        <span>Eliminar</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

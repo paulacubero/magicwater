@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Nueva Tarea</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<div class="text-center pt-4">
+  <a href="/" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded">Volver al inicio</a>
+</div>
+<div class="flex items-start justify-center pt-12">
+  <form th:action="@{/guardarnuevatarea}" th:object="${tarea}" method="post" class="text-center w-full max-w-xl bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Registra la tarea</h2>
+    <div class="space-y-4">
+      <div>
+        <label for="nombre" class="text-sm font-bold text-gray-600 block">Nombre de la tarea</label>
+        <input type="text" th:field="*{titulo}" id="nombre" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500 hover:bg-blue-100">
+      </div>
+      <div>
+        <label for="descripcion" class="text-sm font-bold text-gray-600 block">Descripción de la tarea</label>
+        <input type="text" th:field="*{descripcion}" id="descripcion" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500 hover:bg-blue-100">
+      </div>
+      <div>
+        <label for="inicioprevisto" class="text-sm font-bold text-gray-600 block">Fecha Inicio Prevista</label>
+        <input type="date" th:field="*{inicioPrevisto}" id="inicioprevisto" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500 hover:bg-blue-100">
+      </div>
+      <div>
+        <label for="finprevisto" class="text-sm font-bold text-gray-600 block">Fecha Fin Prevista</label>
+        <input type="date" th:field="*{finPrevisto}" id="finprevisto" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500 hover:bg-blue-100">
+      </div>
+      <div>
+        <label for="proyecto" class="text-sm font-bold text-gray-600 block">Proyecto</label>
+        <select th:field="*{proyecto}" id="proyecto" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500 hover:bg-blue-100">
+          <option th:each="proyecto : ${proyectos}" th:value="${proyecto.idproyecto}" th:text="${proyecto.nombre}"></option>
+        </select>
+      </div>
+      <div>
+        <input type="hidden" th:field="*{cliente.DNI}" th:value="${user.DNI}">
+      </div>
+    </div>
+    <div class="mt-6">
+      <button type="submit" class="w-full py-2 px-4 text-center bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md">
+        Guardar cambios
+      </button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

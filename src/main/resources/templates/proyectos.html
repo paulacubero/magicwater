@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nuestros Proyectos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 pb-8">
+<div class="mx-auto max-w-7xl px-4">
+    <div class="text-center py-8">
+        <h1 class="text-4xl font-bold text-blue-500">Proyectos</h1>
+    </div>
+    <a href="/" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ir al inicio</a>
+
+
+    <div class="flex justify-center mb-8">
+        <button th:if="${!(user==null) && user.getRol().equals('SUPERVISOR')}" onclick="location.href='/nuevo'"
+                class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-8 text-lg mx-1 my-2 cursor-pointer rounded-full transition duration-300">Añadir
+            Proyecto</button>
+        <button th:if="${!(user==null) && user.getRol().equals('TRABAJADOR')}" onclick="location.href='/nuevo'"
+                class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-8 text-lg mx-1 my-2 cursor-pointer rounded-full transition duration-300">Añadir
+            Proyecto</button>
+    </div>
+
+    <div class="flex justify-center">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div th:each="proy : ${proyectos}" class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4" th:text="${proy.getNombre()}"></h2>
+                    <p class="text-gray-600" th:text="${proy.getDescripcion()}"></p>
+                </div>
+                <div class="flex justify-between items-center px-6 py-4 bg-white">
+                    <span class="text-sm font-semibold text-gray-700" th:text="${proy.getZona()}"></span>
+                    <span class="text-sm font-semibold text-gray-700" th:text="${proy.getFecha()}"></span>
+                </div>
+                <div class="flex justify-center items-center px-6 py-4 bg-white">
+                    <a th:href="${'/eliminar?idProyecto='+proy.getIdproyecto()}" class="text-red-500 hover:text-red-600">
+                        <ion-icon name="trash-bin-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
